@@ -138,7 +138,7 @@ async function generarPDF() {
         page.drawImage(img, {
             x: xF,
             y: pageHeight - yF - 40,
-            width: 100,
+            width: 150,
             height: 40
         });
     }
@@ -150,6 +150,7 @@ async function generarPDF() {
     // 🔴 CLAVE PARA GITHUB PAGES + iOS
     window.open(url, "_blank");
 }
+
 
 
 
