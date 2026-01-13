@@ -21,9 +21,9 @@ const nombres = ["", "", ""];
 const firmas = [null, null, null];
 
 const CAMPOS = {
-    0: { nombre: [90, 460],  firma: [90, 500] },
-    1: { nombre: [340, 460], firma: [340, 500] },
-    2: { nombre: [560, 460], firma: [560, 500] }
+    0: { nombre: [90, 420],  firma: [90, 460] },
+    1: { nombre: [340, 420], firma: [340, 460] },
+    2: { nombre: [560, 420], firma: [560, 460] }
 };
 
 function getPos(e) {
@@ -138,7 +138,7 @@ async function generarPDF() {
         page.drawImage(img, {
             x: xF,
             y: pageHeight - yF - 40,
-            width: 150,
+            width: 100,
             height: 40
         });
     }
@@ -150,6 +150,7 @@ async function generarPDF() {
     // 🔴 CLAVE PARA GITHUB PAGES + iOS
     window.open(url, "_blank");
 }
+
 
 
 
