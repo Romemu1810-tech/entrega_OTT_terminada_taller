@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Firma de Entrega OTT</title>
+
+<script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 15px;
+    background: #f4f4f4;
+}
+
+h2 {
+    text-align: center;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+img {
+    max-width: 100%;
+    border: 1px solid #aaa;
+}
+
+.form {
+    background: white;
+    padding: 10px;
+    border-radius: 6px;
+}
+
+input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+}
+
+canvas {
+    width: 100%;
+    height: 120px;
+    border: 2px solid red;
+    touch-action: none;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+}
+</style>
+</head>
+
+<body>
+
+<h2 id="titulo">Firmando: PERSONAL DE ALMACÉN</h2>
+
+<div class="container">
+
+    <img src="assets/pdf_page.png" alt="Documento">
+
+    <div class="form">
+        <input id="nombre" placeholder="Nombre completo">
+
+        <canvas id="firmaCanvas"></canvas>
+
+        <button onclick="limpiar()">Limpiar firma</button>
+        <button onclick="anterior()">Anterior</button>
+        <button onclick="siguiente()">Siguiente</button>
+
+        <hr>
+
+        <button onclick="generarPDF()">Generar PDF firmado</button>
+    </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
