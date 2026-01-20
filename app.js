@@ -29,9 +29,9 @@ const nombres = ["", "", ""];
 const firmas = [null, null, null];
 
 const CAMPOS = {
-    0: { nombre: [90, 505],  firma: [90, 525] },
-    1: { nombre: [340, 505], firma: [340, 525] },
-    2: { nombre: [560, 505], firma: [560, 525] }
+    0: { nombre: [90, 508],  firma: [90, 528] },
+    1: { nombre: [340, 508], firma: [340, 528] },
+    2: { nombre: [560, 508], firma: [560, 528] }
 };
 
 // ================== HELPERS ==================
@@ -168,6 +168,7 @@ async function generarPDF() {
 
 // ================== INIT ==================
 cargarActual();
+
 
 
 
