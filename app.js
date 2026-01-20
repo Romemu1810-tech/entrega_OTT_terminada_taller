@@ -1,14 +1,22 @@
+// ================== CANVAS ==================
 const canvas = document.getElementById("firmaCanvas");
 const ctx = canvas.getContext("2d");
 
-canvas.width = canvas.offsetWidth;
-canvas.height = 120;
+const scale = window.devicePixelRatio || 1;
+const canvasHeightCSS = 120;
 
+canvas.width = canvas.offsetWidth * scale;
+canvas.height = canvasHeightCSS * scale;
+
+ctx.scale(scale, scale);
 ctx.strokeStyle = "black";
-ctx.lineWidth = 2;
+ctx.lineWidth = 3;
 ctx.lineCap = "round";
+ctx.lineJoin = "round";
 
 let drawing = false;
+
+// ================== USUARIOS ==================
 let usuario = 0;
 
 const roles = [
@@ -21,11 +29,12 @@ const nombres = ["", "", ""];
 const firmas = [null, null, null];
 
 const CAMPOS = {
-    0: { nombre: [90, 460],  firma: [90, 500] },
-    1: { nombre: [340, 460], firma: [340, 500] },
-    2: { nombre: [560, 460], firma: [560, 500] }
+    0: { nombre: [90, 866],  firma: [90, 940] },
+    1: { nombre: [340, 866], firma: [340, 940] },
+    2: { nombre: [560, 866], firma: [560, 940] }
 };
 
+// ================== HELPERS ==================
 function getPos(e) {
     const rect = canvas.getBoundingClientRect();
     if (e.touches) {
@@ -37,6 +46,30 @@ function getPos(e) {
     return { x: e.offsetX, y: e.offsetY };
 }
 
+function limpiar() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+function guardarActual() {
+    nombres[usuario] = document.getElementById("nombre").value;
+    firmas[usuario] = canvas.toDataURL("image/png");
+}
+
+function cargarActual() {
+    document.getElementById("titulo").innerText =
+        "Firmando: " + roles[usuario];
+
+    document.getElementById("nombre").value = nombres[usuario] || "";
+    limpiar();
+
+    if (firmas[usuario]) {
+        const img = new Image();
+        img.onload = () => ctx.drawImage(img, 0, 0);
+        img.src = firmas[usuario];
+    }
+}
+
+// ================== EVENTOS CANVAS ==================
 // Mouse
 canvas.addEventListener("mousedown", e => {
     drawing = true;
@@ -74,29 +107,7 @@ canvas.addEventListener("touchmove", e => {
 
 canvas.addEventListener("touchend", () => drawing = false);
 
-function limpiar() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-}
-
-function guardarActual() {
-    nombres[usuario] = document.getElementById("nombre").value;
-    firmas[usuario] = canvas.toDataURL("image/png");
-}
-
-function cargarActual() {
-    document.getElementById("titulo").innerText =
-        "Firmando: " + roles[usuario];
-
-    document.getElementById("nombre").value = nombres[usuario];
-    limpiar();
-
-    if (firmas[usuario]) {
-        const img = new Image();
-        img.onload = () => ctx.drawImage(img, 0, 0);
-        img.src = firmas[usuario];
-    }
-}
-
+// ================== NAVEGACIÓN ==================
 function siguiente() {
     guardarActual();
     usuario = (usuario + 1) % 3;
@@ -109,6 +120,7 @@ function anterior() {
     cargarActual();
 }
 
+// ================== PDF ==================
 async function generarPDF() {
     guardarActual();
 
@@ -118,11 +130,13 @@ async function generarPDF() {
     const pdfDoc = await PDFLib.PDFDocument.load(pdfBytes);
     const page = pdfDoc.getPages()[0];
     const font = await pdfDoc.embedFont(PDFLib.StandardFonts.Helvetica);
+    
     const pageHeight = page.getHeight();
 
     for (let i = 0; i < 3; i++) {
         if (!nombres[i] || !firmas[i]) continue;
 
+        // -------- Nombre --------
         const [xN, yN] = CAMPOS[i].nombre;
         page.drawText(nombres[i], {
             x: xN,
@@ -131,6 +145,7 @@ async function generarPDF() {
             font
         });
 
+        // -------- Firma --------
         const imgBytes = await fetch(firmas[i]).then(r => r.arrayBuffer());
         const img = await pdfDoc.embedPng(imgBytes);
 
@@ -138,8 +153,8 @@ async function generarPDF() {
         page.drawImage(img, {
             x: xF,
             y: pageHeight - yF - 40,
-            width: 150,
-            height: 40
+            width: 160,
+            height: 45
         });
     }
 
@@ -147,13 +162,9 @@ async function generarPDF() {
     const blob = new Blob([finalPdf], { type: "application/pdf" });
     const url = URL.createObjectURL(blob);
 
-    // 🔴 CLAVE PARA GITHUB PAGES + iOS
+    // GitHub Pages / móviles: abrir visor
     window.open(url, "_blank");
 }
 
-
-
-
-
-
-
+// ================== INIT ==================
+cargarActual();
