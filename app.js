@@ -5,21 +5,6 @@ const ctx = canvas.getContext("2d");
 const scale = window.devicePixelRatio || 1;
 const canvasHeightCSS = 120;
 
-
-
-
-const previewCanvas = document.getElementById("previewCanvas");
-const previewCtx = previewCanvas.getContext("2d");
-const img = document.getElementById("docImg");
-
-img.onload = () => {
-    previewCanvas.width = img.width;
-    previewCanvas.height = img.height;
-};
-
-
-
-
 canvas.width = canvas.offsetWidth * scale;
 canvas.height = canvasHeightCSS * scale;
 
@@ -84,35 +69,6 @@ function cargarActual() {
     }
 }
 
-
-
-
-
-function actualizarPreview() {
-    previewCtx.clearRect(0, 0, previewCanvas.width, previewCanvas.height);
-
-    for (let i = 0; i <= usuarioActual; i++) {
-        if (!nombres[i] || !firmas[i]) continue;
-
-        const [nx, ny] = CAMPOS[i].nombre;
-        const [fx, fy] = CAMPOS[i].firma;
-
-        // Dibujar nombre
-        previewCtx.font = "16px Arial";
-        previewCtx.fillStyle = "black";
-        previewCtx.fillText(nombres[i], nx, ny);
-
-        // Dibujar firma
-        const imgFirma = new Image();
-        imgFirma.src = firmas[i];
-        imgFirma.onload = () => {
-            previewCtx.drawImage(imgFirma, fx, fy, 150, 50);
-        };
-    }
-}
-
-
-
 // ================== EVENTOS CANVAS ==================
 // Mouse
 canvas.addEventListener("mousedown", e => {
@@ -153,25 +109,10 @@ canvas.addEventListener("touchend", () => drawing = false);
 
 // ================== NAVEGACIÓN ==================
 function siguiente() {
-    const nombre = document.getElementById("nombre").value.trim();
-    if (!nombre) {
-        alert("Ingrese el nombre");
-        return;
-    }
-
-    nombres[usuarioActual] = nombre;
-    firmas[usuarioActual] = firmaCanvas.toDataURL();
-
-    actualizarPreview();   // 👈 NUEVO
-
-    limpiar();
-
-    if (usuarioActual < 2) {
-        usuarioActual++;
-        actualizarTitulo();
-    }
+    guardarActual();
+    usuario = (usuario + 1) % 3;
+    cargarActual();
 }
-
 
 function anterior() {
     guardarActual();
@@ -227,6 +168,7 @@ async function generarPDF() {
 
 // ================== INIT ==================
 cargarActual();
+
 
 
 
