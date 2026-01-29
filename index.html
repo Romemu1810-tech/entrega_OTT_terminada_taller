@@ -38,6 +38,29 @@ img {
     border-radius: 6px;
 }
 
+
+
+
+    
+.pdf-container {
+    position: relative;
+    width: 100%;
+}
+#docImg {
+    width: 100%;
+    display: block;
+}
+#previewCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pinter-events: none;
+}
+
+
+
+    
+    
 input {
     width: 100%;
     padding: 12px;
@@ -73,7 +96,19 @@ button {
 <h2 id="titulo">Firmando: PERSONAL DE ALMACÉN</h2>
 
 <div class="container">
+    
 
+
+    
+    <div class="pdf-container">
+        <img id="docImg" src="assets/pdf_page.png">
+        <canvas id="previewCanvas"></canvas>
+    </div>
+
+
+
+    
+    
     <img src="assets/pdf_page.png" alt="Documento">
 
     <div class="form">
@@ -94,3 +129,4 @@ button {
 <script src="app.js"></script>
 </body>
 </html>
+
