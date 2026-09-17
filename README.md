@@ -1,91 +1,160 @@
-# Automatización de Firma de Informes OTT
+# Automatización del Registro de Entrega de OTTs Terminadas
 
-Aplicación web desarrollada para **automatizar y agilizar el proceso de firma de informes de Orden de Trabajo (OTT)** utilizados en el taller.
+Aplicación web desarrollada para **automatizar el proceso de firma del Registro de Entrega de OTTs Terminadas**, utilizado en la gestión y entrega de Órdenes de Trabajo (OTT) en el taller.
 
-El sistema permite trabajar directamente desde el navegador con un documento PDF y facilitar el proceso de incorporación de las firmas correspondientes a **tres responsables**, evitando tener que editar manualmente el documento en programas externos.
+El proyecto nace como una mejora al proceso manual utilizado anteriormente, en el cual el registro debía ser impreso, trasladado físicamente entre diferentes áreas para obtener las firmas correspondientes, posteriormente escaneado y finalmente cargado al sistema de gestión de la empresa.
+
+La aplicación permite **digitalizar y agilizar este flujo**, facilitando la incorporación de las tres firmas requeridas directamente sobre el documento PDF.
 
 ---
 
 ## Objetivo
 
-El objetivo principal de este proyecto es simplificar el proceso de entrega y validación de informes OTT mediante una herramienta web sencilla, rápida y accesible.
+El objetivo del proyecto es **reducir las actividades manuales asociadas al proceso de entrega y validación de OTTs terminadas**, mediante una herramienta web que permita generar el documento final con las firmas correspondientes.
 
-La aplicación busca reducir tareas manuales como:
+Las tres validaciones consideradas en el proceso son:
 
-* Abrir el informe en un programa externo.
-* Insertar manualmente las firmas.
-* Repetir el proceso para cada responsable.
-* Guardar diferentes versiones del documento.
-* Preparar el archivo final para su entrega.
-
-De esta manera, el proceso de firma puede realizarse desde una única interfaz.
+| Firma | Responsable               | Función                                              |
+| ----- | ------------------------- | ---------------------------------------------------- |
+| 1️⃣   | **Personal de Taller**    | Validación de la entrega de la OTT terminada         |
+| 2️⃣   | **Personal de Almacén**   | Confirmación de la recepción/gestión correspondiente |
+| 3️⃣   | **Aprobado por Gerencia** | Aprobación final del registro                        |
 
 ---
 
-## Funcionamiento
+## Proceso anterior
 
-El flujo general de la aplicación es:
+Antes de implementar esta herramienta, el proceso de firma se realizaba de forma manual.
+
+### Flujo tradicional
 
 ```text
-┌─────────────────────┐
-│   Informe OTT PDF   │
-└──────────┬──────────┘
-           │
-           ▼
-┌─────────────────────┐
-│ Carga del documento │
-└──────────┬──────────┘
-           │
-           ▼
-┌─────────────────────┐
-│ Incorporación de    │
-│     Firma 1         │
-└──────────┬──────────┘
-           │
-           ▼
-┌─────────────────────┐
-│ Incorporación de    │
-│     Firma 2         │
-└──────────┬──────────┘
-           │
-           ▼
-┌─────────────────────┐
-│ Incorporación de    │
-│     Firma 3         │
-└──────────┬──────────┘
-           │
-           ▼
-┌─────────────────────┐
-│ Generación del PDF  │
-│       final         │
-└─────────────────────┘
+              OTT TERMINADA
+                    │
+                    ▼
+        Imprimir el Registro de
+        Entrega de OTTs Terminadas
+                    │
+                    ▼
+        ┌───────────────────────┐
+        │ Firma Personal Taller │
+        └───────────┬───────────┘
+                    │
+                    ▼
+        ┌───────────────────────┐
+        │ Firma Personal Almacén│
+        └───────────┬───────────┘
+                    │
+                    ▼
+        ┌───────────────────────┐
+        │   Firma de Gerencia   │
+        └───────────┬───────────┘
+                    │
+                    ▼
+              Escanear PDF
+                    │
+                    ▼
+        Cargar documento al
+        sistema de la empresa
 ```
+
+### Problemas del proceso manual
+
+Este flujo implicaba varias actividades que podían generar demoras:
+
+* Impresión del documento.
+* Manipulación física del registro.
+* Traslado del documento entre diferentes responsables.
+* Espera para obtener cada una de las firmas.
+* Riesgo de extravío o deterioro del documento físico.
+* Escaneo del documento una vez completadas las firmas.
+* Carga manual del documento escaneado al sistema.
+* Generación de archivos adicionales durante el proceso.
+
+---
+
+## Proceso automatizado
+
+La aplicación busca simplificar el procedimiento mediante el procesamiento digital del registro.
+
+### Nuevo flujo
+
+```text
+              OTT TERMINADA
+                    │
+                    ▼
+        Registro de Entrega de
+          OTTs Terminadas
+                    │
+                    ▼
+        ┌───────────────────────┐
+        │ Firma Personal Taller │
+        └───────────┬───────────┘
+                    │
+                    ▼
+        ┌───────────────────────┐
+        │ Firma Personal Almacén│
+        └───────────┬───────────┘
+                    │
+                    ▼
+        ┌───────────────────────┐
+        │   Firma de Gerencia   │
+        └───────────┬───────────┘
+                    │
+                    ▼
+            PDF FINAL FIRMADO
+                    │
+                    ▼
+        Cargar al sistema de
+             la empresa
+```
+
+De esta manera, se elimina la necesidad de **imprimir y posteriormente escanear el documento** como parte del flujo de preparación del registro.
+
+---
+
+## Funcionamiento de la aplicación
+
+La aplicación funciona desde un navegador web y utiliza JavaScript para gestionar el documento PDF.
+
+El flujo general es:
+
+1. Abrir la aplicación.
+2. Cargar o trabajar con el registro correspondiente.
+3. Incorporar la firma de **Personal de Taller**.
+4. Incorporar la firma de **Personal de Almacén**.
+5. Incorporar la firma de **Gerencia**.
+6. Generar el documento PDF final.
+7. Guardar el documento.
+8. Cargar el PDF terminado al sistema de gestión de la empresa.
 
 ---
 
 ## Características
 
-* Procesamiento de documentos PDF.
-* Incorporación de tres firmas al informe.
-* Aplicación ejecutable directamente desde el navegador.
-* Procesamiento local del documento.
+* Gestión de documentos PDF.
+* Incorporación de tres firmas.
+* Firma correspondiente a **Personal de Taller**.
+* Firma correspondiente a **Personal de Almacén**.
+* Firma correspondiente a **Aprobado por Gerencia**.
+* Interfaz web.
+* Procesamiento mediante JavaScript.
 * Generación del documento PDF final.
-* Interfaz sencilla orientada al uso en taller.
-* No requiere un servidor backend para su funcionamiento básico.
+* Ejecución desde un navegador.
+* Organización de recursos mediante una carpeta `assets`.
 
 ---
 
 ## Tecnologías utilizadas
 
-El proyecto está desarrollado utilizando tecnologías web estándar:
-
-| Tecnología   | Uso                                                |
-| ------------ | -------------------------------------------------- |
-| HTML5        | Estructura de la interfaz                          |
-| JavaScript   | Lógica y funcionamiento de la aplicación           |
-| PDF-LIB      | Manipulación y generación de documentos PDF        |
-| CSS          | Estilos de la interfaz                             |
-| Git / GitHub | Control de versiones y almacenamiento del proyecto |
+| Tecnología     | Aplicación                                |
+| -------------- | ----------------------------------------- |
+| **HTML5**      | Estructura de la aplicación               |
+| **CSS**        | Diseño y presentación de la interfaz      |
+| **JavaScript** | Lógica y automatización del proceso       |
+| **PDF-LIB**    | Manipulación y generación de archivos PDF |
+| **Git**        | Control de versiones                      |
+| **GitHub**     | Repositorio y distribución del proyecto   |
 
 ---
 
@@ -95,7 +164,7 @@ El proyecto está desarrollado utilizando tecnologías web estándar:
 entrega_OTT_terminada_taller/
 │
 ├── assets/
-│   └── ...
+│   └── Recursos gráficos y firmas
 │
 ├── index.html
 ├── app.js
@@ -104,37 +173,35 @@ entrega_OTT_terminada_taller/
 └── README.md
 ```
 
-### Descripción de los archivos
+### Archivos principales
 
-**`index.html`**
+#### `index.html`
 
-Contiene la estructura principal de la aplicación y los elementos de la interfaz gráfica.
+Contiene la estructura HTML de la aplicación y los elementos que conforman la interfaz de usuario.
 
-**`app.js`**
+#### `app.js`
 
-Contiene la lógica de funcionamiento de la aplicación, incluyendo el procesamiento del documento y las acciones relacionadas con las firmas.
+Contiene la lógica principal de la aplicación y las funciones necesarias para gestionar el proceso de incorporación de las firmas.
 
-**`pdf-lib.min.js`**
+#### `pdf-lib.min.js`
 
-Biblioteca utilizada para trabajar con archivos PDF directamente desde JavaScript.
+Biblioteca utilizada para trabajar con documentos PDF desde JavaScript.
 
-**`assets/`**
+#### `assets/`
 
-Contiene los recursos utilizados por la aplicación, como imágenes, firmas u otros elementos gráficos.
+Directorio destinado a almacenar los recursos utilizados por la aplicación, incluyendo elementos gráficos y firmas.
 
-**`.nojekyll`**
+#### `.nojekyll`
 
-Archivo utilizado para facilitar la publicación del proyecto mediante GitHub Pages.
+Archivo utilizado para facilitar la publicación de la aplicación mediante GitHub Pages.
 
 ---
 
-## Instalación y ejecución
+## Ejecución
 
-El proyecto no requiere una instalación compleja.
+El proyecto puede ejecutarse directamente desde un navegador web.
 
-### Opción 1 — Ejecutar localmente
-
-Clonar el repositorio:
+### Clonar el repositorio
 
 ```bash
 git clone https://github.com/Romemu1810-tech/entrega_OTT_terminada_taller.git
@@ -146,114 +213,90 @@ Ingresar al directorio:
 cd entrega_OTT_terminada_taller
 ```
 
-Luego abrir:
+Posteriormente, abrir:
 
 ```text
 index.html
 ```
 
-directamente en un navegador web.
+con un navegador compatible.
 
 ---
 
-## Ejecución mediante GitHub Pages
+## Publicación
 
-El proyecto también puede publicarse como una página web utilizando **GitHub Pages**.
+El proyecto puede ser publicado mediante **GitHub Pages**, permitiendo acceder a la aplicación desde un navegador sin necesidad de instalar un programa adicional.
 
-Una vez habilitado GitHub Pages para la rama correspondiente, la aplicación puede utilizarse desde un navegador sin necesidad de instalar software adicional.
-
----
-
-## Uso de la aplicación
-
-El flujo de utilización es el siguiente:
-
-### 1. Cargar el informe
-
-Seleccionar el archivo PDF correspondiente al informe OTT que se desea procesar.
-
-### 2. Incorporar la primera firma
-
-La aplicación permite colocar la primera firma en la ubicación correspondiente del documento.
-
-### 3. Incorporar la segunda firma
-
-Se continúa con la segunda persona responsable de la aprobación o validación del informe.
-
-### 4. Incorporar la tercera firma
-
-Finalmente se incorpora la tercera firma requerida.
-
-### 5. Generar el documento final
-
-Una vez completado el proceso, se genera el PDF con las firmas incorporadas, listo para su almacenamiento o entrega.
+El repositorio contiene el archivo `.nojekyll` necesario para la publicación del sitio.
 
 ---
 
-## Procesamiento del documento
+## 📊 Comparación del proceso
 
-La aplicación está diseñada como una herramienta web del lado del cliente (*client-side*), utilizando JavaScript para realizar el procesamiento del PDF.
-
-Esto permite trabajar con el documento directamente desde el navegador sin depender de un servidor dedicado para las operaciones principales.
-
-> **Nota:** La implementación y el manejo de documentos deben utilizarse de acuerdo con las políticas internas de la organización y los requisitos aplicables a la validez de las firmas.
-
----
-
-## Aplicación en procesos de taller
-
-Este proyecto fue desarrollado pensando en un entorno de **taller y gestión de Órdenes de Trabajo (OTT)**, donde los informes requieren la validación de diferentes responsables antes de ser entregados o archivados.
-
-La automatización permite reducir actividades repetitivas y estandarizar el proceso de preparación de los documentos.
-
-### Flujo simplificado
-
-```text
-Trabajo realizado
-       ↓
-Elaboración del informe OTT
-       ↓
-Revisión
-       ↓
-Firma 1
-       ↓
-Firma 2
-       ↓
-Firma 3
-       ↓
-Informe final
-       ↓
-Entrega / Archivo
-```
+| Actividad                     | Proceso anterior | Proceso automatizado |
+| ----------------------------- | :--------------: | :------------------: |
+| Elaboración del registro      |         ✅        |           ✅          |
+| Impresión                     |         ✅        |           ❌          |
+| Firma Personal de Taller      |     ✍️ Física    |      💻 Digital      |
+| Firma Personal de Almacén     |     ✍️ Física    |      💻 Digital      |
+| Firma de Gerencia             |     ✍️ Física    |      💻 Digital      |
+| Traslado físico del documento |         ✅        |           ❌          |
+| Escaneo                       |         ✅        |           ❌          |
+| Generación del PDF final      |     Escaneado    |        Digital       |
+| Carga al sistema empresarial  |         ✅        |           ✅          |
 
 ---
 
-## Alcance
+## Beneficios esperados
 
-Esta herramienta está orientada principalmente a la **automatización del proceso interno de preparación y firma de informes PDF**.
+La automatización del proceso busca:
 
-No pretende sustituir sistemas de firma electrónica certificada ni determinar por sí misma la validez legal de una firma.
-
-La validez y aceptación del documento dependerán de los procedimientos internos y de los requisitos legales o contractuales aplicables.
+* Reducir el uso de papel.
+* Eliminar la necesidad de trasladar físicamente el registro entre áreas.
+* Reducir el tiempo empleado en la preparación del documento.
+* Evitar el paso de escaneo posterior a la firma.
+* Simplificar la generación del PDF final.
+* Estandarizar el proceso de firma.
+* Facilitar la posterior carga del documento al sistema empresarial.
+* Mantener un flujo de trabajo más ordenado y trazable.
 
 ---
 
-## Posibles mejoras futuras
+## Aplicación en la gestión de taller
 
-Entre las posibles funcionalidades que podrían incorporarse posteriormente:
+El proyecto está orientado a un proceso real de **gestión documental de Órdenes de Trabajo (OTT)**.
 
-* [ ] Selección visual de la posición de cada firma.
-* [ ] Redimensionamiento de las firmas mediante controles gráficos.
-* [ ] Previsualización completa del PDF.
-* [ ] Selección de diferentes tipos de documentos OTT.
-* [ ] Registro de fecha y hora de cada firma.
-* [ ] Identificación del responsable que realiza cada firma.
-* [ ] Generación automática del nombre del archivo.
-* [ ] Incorporación de información de la OTT al documento.
-* [ ] Interfaz adaptable a dispositivos móviles.
-* [ ] Integración con un sistema de gestión documental.
-* [ ] Registro de versiones del informe.
-* [ ] Implementación de mecanismos de firma electrónica avanzada, si el proceso lo requiere.
+La solución busca aplicar principios de **digitalización y automatización de procesos administrativos** a una actividad que anteriormente dependía de documentos físicos y del traslado del registro entre diferentes responsables.
+
+El objetivo no es únicamente digitalizar la firma, sino **simplificar el flujo completo desde que una OTT es terminada hasta que su registro firmado queda disponible para ser cargado al sistema de la empresa**.
+
+---
+
+## Consideraciones
+
+La aplicación está destinada a facilitar el proceso interno de preparación de documentos.
+
+El uso de imágenes de firmas, firmas electrónicas o mecanismos similares debe realizarse de acuerdo con las políticas, procedimientos y autorizaciones establecidas por la empresa.
+
+Esta herramienta **no pretende sustituir un sistema de firma electrónica certificada** cuando este sea requerido por normativa, contrato o procedimiento interno.
+
+---
+
+## Mejoras futuras
+
+Algunas funcionalidades que podrían incorporarse en futuras versiones:
+
+* [ ] Registro automático de fecha y hora.
+* [ ] Identificación del usuario que realiza cada acción.
+* [ ] Generación automática del nombre del PDF.
+* [ ] Incorporación automática del número de OTT.
+* [ ] Incorporación automática de la fecha de entrega.
+* [ ] Validación de que las tres firmas hayan sido incorporadas.
+* [ ] Vista previa del documento antes de descargarlo.
+* [ ] Selección y posicionamiento de firmas mediante interfaz gráfica.
+* [ ] Historial de documentos procesados.
+* [ ] Integración con el sistema de gestión documental de la empresa.
+* [ ] Implementación de mecanismos de firma electrónica con autenticación de usuarios.
 
 ---
 
@@ -261,12 +304,17 @@ Entre las posibles funcionalidades que podrían incorporarse posteriormente:
 
 **Rodrigo Mena Muñoz**
 
-Proyecto desarrollado como herramienta de automatización aplicada a la gestión documental de informes OTT en entorno de taller.
+Proyecto de automatización aplicado a la gestión documental y entrega de **Órdenes de Trabajo (OTT) terminadas** en entorno de taller.
 
 ---
 
-## Licencia
+## Repositorio
 
-Este proyecto se encuentra destinado principalmente a fines de desarrollo y automatización interna.
+**GitHub:**
+`Romemu1810-tech/entrega_OTT_terminada_taller`
 
-La utilización, modificación y distribución del código deberá realizarse de acuerdo con las condiciones definidas por el propietario del repositorio.
+---
+
+### Resumen del proyecto
+
+> **Automatización del Registro de Entrega de OTTs Terminadas mediante una aplicación web para la incorporación de las firmas de Personal de Taller, Personal de Almacén y Aprobado por Gerencia, eliminando las etapas de impresión, traslado físico y escaneo del documento.**
